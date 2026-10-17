@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <!-- L'application ne parle à personne : ni police distante, ni mesure
+       d'audience, ni publicité. Tout est dans le dossier. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; manifest-src 'self'; media-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="Méridiens : la médecine traditionnelle chinoise dans la poche. Les grands principes (Yin-Yang, Qi, cinq éléments, organes), les 14 méridiens et plus de 130 points de digipuncture sur des schémas animés et précis, des séances guidées pour soulager les maux courants, et la diététique chinoise. Hors ligne, sans compte, sans publicité.">
+  <meta name="theme-color" content="#f6f0e4">
+  <!-- La version de la coquille, la même que dans sw.js. -->
+  <meta name="application-version" content="v1.0.0">
+  <title>Méridiens — médecine chinoise et digipuncture</title>
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Méridiens">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Méridiens">
+  <meta property="og:title" content="Méridiens — médecine chinoise et digipuncture">
+  <meta property="og:description" content="Principes de la médecine chinoise, méridiens et points de digipuncture sur schémas animés, séances guidées et diététique chinoise. Hors ligne.">
+  <meta property="og:url" content="https://cristo67000.github.io/meridiens/">
+  <meta property="og:image" content="https://cristo67000.github.io/meridiens/icons/apercu-1200x630.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Méridiens — médecine chinoise et digipuncture">
+  <meta property="og:locale" content="fr_FR">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/planche.css">
+  <link rel="stylesheet" href="css/schemas.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+  <div id="demarrage" role="status">
+    <svg class="logo" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+      <rect class="logo-fond" x="2" y="2" width="60" height="60" rx="14"/>
+      <path class="logo-point" d="M49.4 21.1L50.9 23.7L52.0 26.5L52.6 29.5L52.8 32.5L52.5 35.5L51.8 38.5L50.6 41.3L49.0 43.8L47.1 46.1L44.8 48.1L42.2 49.6L39.5 50.8L36.7 51.6L33.8 51.9L30.9 51.8L28.0 51.3L25.3 50.4L22.8 49.1L20.5 47.5L18.4 45.6L16.6 43.5L15.1 41.1L14.0 38.5L13.2 35.9L12.8 33.1L12.8 30.3L13.3 27.5L14.1 24.8L15.3 22.3L16.9 20.0L18.8 17.9L21.0 16.2L23.4 14.8L26.1 13.8L28.8 13.2L31.5 13.1L34.3 13.4L36.9 14.1L39.4 15.1L41.7 16.5L40.4 18.6L38.3 17.5L36.2 16.8L33.9 16.3L31.6 16.2L29.3 16.5L27.1 17.1L25.0 18.0L23.1 19.2L21.5 20.7L20.0 22.5L18.9 24.4L18.1 26.4L17.6 28.6L17.4 30.7L17.5 32.8L18.0 34.9L18.7 36.8L19.6 38.7L20.8 40.3L22.2 41.8L23.7 43.1L25.4 44.2L27.3 45.0L29.2 45.5L31.2 45.8L33.2 45.8L35.2 45.6L37.2 45.0L39.1 44.1L40.8 43.0L42.3 41.6L43.6 40.0L44.6 38.3L45.3 36.4L45.8 34.4L45.9 32.3L45.7 30.3L45.2 28.4L44.4 26.6L43.4 24.9Z"/>
+      <circle class="logo-point" cx="46.4" cy="23.0" r="3.6"/>
+      <circle class="logo-point" cx="32" cy="32" r="4.6"/>
+    </svg>
+    <div class="marque">Méridiens</div>
+    <p>Le Qi se met en route…</p>
+  </div>
+
+  <header id="barre">
+    <button id="b-retour" class="bouton-icone" type="button" aria-label="Retour" hidden></button>
+    <div id="titre-barre">
+      <svg class="logo" id="logo-barre" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+        <rect class="logo-fond" x="2" y="2" width="60" height="60" rx="14"/>
+        <path class="logo-point" d="M49.4 21.1L50.9 23.7L52.0 26.5L52.6 29.5L52.8 32.5L52.5 35.5L51.8 38.5L50.6 41.3L49.0 43.8L47.1 46.1L44.8 48.1L42.2 49.6L39.5 50.8L36.7 51.6L33.8 51.9L30.9 51.8L28.0 51.3L25.3 50.4L22.8 49.1L20.5 47.5L18.4 45.6L16.6 43.5L15.1 41.1L14.0 38.5L13.2 35.9L12.8 33.1L12.8 30.3L13.3 27.5L14.1 24.8L15.3 22.3L16.9 20.0L18.8 17.9L21.0 16.2L23.4 14.8L26.1 13.8L28.8 13.2L31.5 13.1L34.3 13.4L36.9 14.1L39.4 15.1L41.7 16.5L40.4 18.6L38.3 17.5L36.2 16.8L33.9 16.3L31.6 16.2L29.3 16.5L27.1 17.1L25.0 18.0L23.1 19.2L21.5 20.7L20.0 22.5L18.9 24.4L18.1 26.4L17.6 28.6L17.4 30.7L17.5 32.8L18.0 34.9L18.7 36.8L19.6 38.7L20.8 40.3L22.2 41.8L23.7 43.1L25.4 44.2L27.3 45.0L29.2 45.5L31.2 45.8L33.2 45.8L35.2 45.6L37.2 45.0L39.1 44.1L40.8 43.0L42.3 41.6L43.6 40.0L44.6 38.3L45.3 36.4L45.8 34.4L45.9 32.3L45.7 30.3L45.2 28.4L44.4 26.6L43.4 24.9Z"/>
+      <circle class="logo-point" cx="46.4" cy="23.0" r="3.6"/>
+        <circle class="logo-point" cx="32" cy="32" r="4.6"/>
+      </svg>
+      <h1 id="titre">Méridiens</h1>
+    </div>
+    <a id="b-recherche" class="bouton-icone" href="#/recherche" aria-label="Rechercher"></a>
+    <a id="b-carnet" class="bouton-icone" href="#/carnet" aria-label="Mon carnet : favoris, notes, séances"></a>
+    <a id="b-reglages" class="bouton-icone" href="#/reglages" aria-label="Réglages"></a>
+  </header>
+
+  <main id="scene" tabindex="-1" aria-live="polite"></main>
+
+  <nav id="onglets" aria-label="Rubriques">
+    <a href="#/" data-onglet="accueil" data-icone="accueil">Accueil</a>
+    <a href="#/principes" data-onglet="principes" data-icone="taiji">Principes</a>
+    <a href="#/meridiens" data-onglet="meridiens" data-icone="corps">Méridiens</a>
+    <a href="#/soins" data-onglet="soins" data-icone="main">Soins</a>
+    <a href="#/dietetique" data-onglet="dietetique" data-icone="bol">Diététique</a>
+  </nav>
+
+  <div id="mise-a-jour" role="status" hidden>
+    <p id="mise-a-jour-texte">Une nouvelle version de Méridiens est prête.</p>
+    <button id="b-maj-plus-tard" type="button">Plus tard</button>
+    <button id="b-mettre-a-jour" type="button">Mettre à jour</button>
+  </div>
+
+  <script src="js/icones.js"></script>
+  <script src="js/outils.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/anatomie/geo.js"></script>
+  <script src="js/anatomie/corps.js"></script>
+  <script src="js/anatomie/regions.js"></script>
+  <script src="js/anatomie/planche.js"></script>
+  <script src="js/visionneuse.js"></script>
+  <script src="js/donnees/meridiens.js"></script>
+  <script src="js/donnees/points.js"></script>
+  <script src="js/donnees/principes.js"></script>
+  <script src="js/donnees/soins.js"></script>
+  <script src="js/donnees/aliments.js"></script>
+  <script src="js/donnees/dietetique.js"></script>
+  <script src="js/donnees/index.js"></script>
+  <script src="js/schemas/schemas.js"></script>
+  <script src="js/schemas/horloge.js"></script>
+  <script src="js/schemas/taiji.js"></script>
+  <script src="js/schemas/wuxing.js"></script>
+  <script src="js/schemas/diagnostic.js"></script>
+  <script src="js/schemas/cun.js"></script>
+  <script src="js/feuille.js"></script>
+  <script src="js/vues/communs.js"></script>
+  <script src="js/vues/accueil.js"></script>
+  <script src="js/vues/principes.js"></script>
+  <script src="js/vues/meridiens.js"></script>
+  <script src="js/vues/point.js"></script>
+  <script src="js/vues/soins.js"></script>
+  <script src="js/vues/seance.js"></script>
+  <script src="js/vues/dietetique.js"></script>
+  <script src="js/vues/recherche.js"></script>
+  <script src="js/vues/carnet.js"></script>
+  <script src="js/vues/reglages.js"></script>
+  <script src="js/miseajour.js"></script>
+  <script src="js/installer.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

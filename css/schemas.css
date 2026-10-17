@@ -1,0 +1,121 @@
+/* Les schémas des principes : horloge, taiji, cinq éléments, langue, pouls, cun. */
+
+/* Horloge des méridiens */
+.horloge .h-jour { fill: var(--or); opacity: .5; }
+.horloge .h-nuit { fill: var(--eau); opacity: .45; }
+.horloge .h-fond { fill: var(--mc); fill-opacity: .16; stroke: var(--carte); stroke-width: 1; transition: fill-opacity .3s; }
+.horloge .h-code { font-size: 15px; font-weight: 750; fill: var(--mc); pointer-events: none; }
+.horloge .h-secteur { cursor: pointer; outline: none; }
+.horloge .h-secteur:hover .h-fond { fill-opacity: .3; }
+.horloge .h-secteur.actif .h-fond { fill-opacity: .95; }
+.horloge .h-secteur.actif .h-code { fill: var(--carte); }
+.horloge .h-secteur.choisi .h-fond { stroke: var(--encre); stroke-width: 2.5; }
+.horloge .h-secteur:focus-visible .h-fond { stroke: var(--vermillon); stroke-width: 3; }
+.horloge .h-heure { font-size: 10.5px; fill: var(--encre-3); font-weight: 600; }
+.horloge .h-astre { font-size: 10px; fill: var(--encre-3); font-style: italic; }
+.horloge .h-aiguille line { stroke: var(--vermillon); stroke-width: 3; stroke-linecap: round; }
+.horloge .h-aiguille circle { fill: var(--vermillon); }
+.horloge .h-aiguille .h-moyeu { fill: var(--carte); stroke: var(--vermillon); stroke-width: 3; }
+.horloge .h-centre text { fill: var(--encre); }
+.horloge .h-t-heure { font-size: 24px; font-weight: 750; font-variant-numeric: tabular-nums; }
+.horloge .h-t-nom { font-size: 15px; font-family: var(--police-titre); font-weight: 600; }
+.horloge .h-t-sous { font-size: 11px; fill: var(--encre-3) !important; }
+.horloge.mini .h-code { font-size: 17px; }
+.horloge.mini .h-aiguille line { stroke-width: 6; }
+.horloge.mini .h-aiguille circle { r: 8; }
+
+/* Taiji */
+.schema.taiji { max-width: 220px; }
+.schema.taiji.petit { max-width: 120px; }
+.taiji-yang { fill: var(--carte); }
+.taiji-yin { fill: var(--encre); }
+.taiji-bord { fill: none; stroke: var(--encre); stroke-width: 2.5; }
+.taiji-tourne { transform-origin: 120px 120px; animation: tourne-taiji 24s linear infinite; }
+@keyframes tourne-taiji { to { transform: rotate(360deg); } }
+.schema.barres-yy { max-width: 320px; }
+.yy-yin, .yy-yang { transform-box: fill-box; transform-origin: 50% 100%; transition: transform .7s cubic-bezier(.3, 1.3, .5, 1); }
+.yy-yin { fill: var(--eau); }
+.yy-yang { fill: var(--vermillon); }
+.yy-sol { stroke: var(--encre-3); stroke-width: 1.5; }
+.yy-norme { stroke: var(--encre-3); stroke-width: 1; stroke-dasharray: 4 4; }
+.yy-legende { font-size: 9px; fill: var(--encre-3); }
+.yy-nom { font-size: 12px; font-weight: 700; fill: var(--encre-2); }
+
+/* Cinq éléments */
+.schema.wuxing { max-width: 360px; }
+.wx-orbite { fill: none; stroke: var(--trait); stroke-width: 1; stroke-dasharray: 2 4; }
+.wx-element { cursor: pointer; outline: none; }
+.wx-disque { fill: var(--ec); stroke: var(--carte); stroke-width: 3; transition: transform .25s; transform-box: fill-box; transform-origin: center; }
+.wx-element:hover .wx-disque, .wx-element.choisi .wx-disque { transform: scale(1.1); }
+.wx-element.choisi .wx-disque { stroke: var(--encre); }
+.wx-element:focus-visible .wx-disque { stroke: var(--vermillon); }
+.wx-han { font-size: 24px; fill: #fff; font-weight: 700; pointer-events: none; }
+.wx-nom { font-size: 10px; fill: #fff; font-weight: 700; letter-spacing: .03em; pointer-events: none; }
+.el-metal .wx-han, .el-metal .wx-nom { fill: #1d1d1d; }
+.wx-fleche { fill: none; stroke: var(--encre-2); stroke-width: 2; }
+.cycle-ke .wx-fleche, .cycle-cheng .wx-fleche { stroke: var(--vermillon); }
+.cycle-cheng .wx-fleche { stroke-width: 3.5; }
+.cycle-wu .wx-fleche { stroke: var(--or); stroke-dasharray: 6 4; }
+.wx-pointe { fill: var(--encre-2); }
+.cycle-ke .wx-pointe, .cycle-cheng .wx-pointe { fill: var(--vermillon); }
+.cycle-wu .wx-pointe { fill: var(--or); }
+.wx-flux { fill: none; stroke: var(--carte); stroke-width: 2; stroke-dasharray: 1.5 16; animation: flux-wx 1.8s linear infinite; stroke-linecap: round; }
+@keyframes flux-wx { to { stroke-dashoffset: -17.5; } }
+.panneau-detail.el-bois h4, .panneau-detail.el-feu h4, .panneau-detail.el-terre h4, .panneau-detail.el-metal h4, .panneau-detail.el-eau h4 { color: var(--ec); }
+.texte-cycle { font-size: .94rem; margin-top: 4px; }
+
+/* Langue */
+.schema.langue { max-width: 260px; }
+.l-chair { stroke: none; transition: fill .4s; }
+.l-rose .l-chair { fill: #e9a3a0; }
+.l-pale .l-chair { fill: #f0cfc6; }
+.l-rouge .l-chair { fill: #d9534c; }
+.l-violacee .l-chair { fill: #9d6b98; }
+.l-enduit { transition: fill .4s, opacity .4s; }
+.l-enduit.e-fin { fill: #fff; opacity: .28; }
+.l-enduit.e-epais { fill: #fbfaf5; opacity: .82; }
+.l-enduit.e-jaune { fill: #e6c55a; opacity: .78; }
+.l-enduit.e-absent { opacity: 0; }
+.l-sillon { stroke: rgba(0, 0, 0, .18); stroke-width: 1.5; fill: none; }
+.l-fissures path, .l-dents path { stroke: rgba(80, 20, 20, .45); stroke-width: 1.6; fill: none; stroke-linecap: round; }
+.l-bord { fill: none; stroke: #9c5a55; stroke-width: 2; }
+.l-zone { cursor: pointer; outline: none; }
+.l-zone rect { fill: transparent; stroke: rgba(255, 255, 255, .7); stroke-width: 1; stroke-dasharray: 3 3; }
+.l-zone:hover rect, .l-zone.choisi rect { fill: rgba(255, 255, 255, .22); }
+.l-zone.choisi rect { stroke: #fff; stroke-width: 2; stroke-dasharray: none; }
+.l-etiquette { font-size: 11.5px; font-weight: 700; fill: #3b1715; pointer-events: none; paint-order: stroke; stroke: rgba(255, 255, 255, .6); stroke-width: 3px; }
+.l-corps { transition: transform .4s; }
+
+/* Pouls */
+.schema.pouls { max-width: 460px; }
+.p-bras { fill: var(--peau); stroke: var(--peau-trait); stroke-width: 1.5; }
+.p-pli { fill: none; stroke: var(--peau-detail); stroke-width: 1; }
+.p-artere { fill: none; stroke: var(--vermillon); stroke-width: 2.5; stroke-dasharray: 8 5; animation: battement 1s ease-in-out infinite; }
+@keyframes battement { 50% { stroke-width: 4; } }
+.p-styloide { fill: var(--os); stroke: var(--peau-detail); }
+.p-legende { font-size: 10px; fill: var(--encre-3); font-style: italic; }
+.p-doigt ellipse { fill: var(--carte); stroke: var(--jade); stroke-width: 2; }
+.p-repere { stroke: var(--jade); stroke-width: 1; stroke-dasharray: 2 3; }
+.p-nom { font-size: 11px; font-weight: 750; fill: var(--jade); }
+.p-organe { font-size: 11.5px; font-weight: 700; fill: var(--encre); }
+
+/* Mesures en cun */
+.schema.cun { max-width: 460px; }
+.c-fond { fill: var(--carte-2); stroke: var(--trait); }
+.c-panneau { cursor: pointer; outline: none; }
+.c-panneau.choisi .c-fond { stroke: var(--jade); stroke-width: 2; fill: var(--jade-pale); }
+.c-doigt { fill: var(--peau); stroke: var(--peau-trait); stroke-width: 1.2; }
+.c-doigt-trait { fill: none; stroke: var(--peau-trait); stroke-width: 20; stroke-linecap: round; stroke-linejoin: round; opacity: .35; }
+.c-ongle { fill: var(--ongle); stroke: var(--peau-detail); stroke-width: .8; }
+.c-pli { stroke: var(--peau-detail); stroke-width: 1; fill: none; }
+.c-mesure { fill: none; stroke: var(--jade); stroke-width: 2.2; stroke-linecap: round; }
+.c-titre { font-size: 13px; font-weight: 750; fill: var(--encre); }
+.c-sous { font-size: 9.5px; fill: var(--encre-3); }
+
+/* Gestes */
+.geste { width: 56px; height: 56px; flex: none; }
+.t-pince { fill: none; stroke: var(--vermillon); stroke-width: 4; stroke-linecap: round; }
+.t-paume { fill: var(--vermillon); opacity: .25; }
+@media (prefers-reduced-motion: reduce) {
+  .taiji-tourne, .wx-flux, .p-artere, .anim-doigt, .anim-pression { animation: none; }
+}

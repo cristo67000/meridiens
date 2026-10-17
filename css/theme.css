@@ -1,0 +1,209 @@
+/*
+ * Les couleurs et les polices de l'application, en clair et en sombre.
+ *
+ * L'esprit : un papier ivoire, une encre brune, le vermillon des cachets
+ * chinois pour ce qui se touche, le jade pour les repères. Les méridiens
+ * prennent la couleur de leur élément, plus sombre pour le Yin, plus claire
+ * pour le Yang.
+ */
+:root {
+  color-scheme: light;
+  --papier: #f6f0e4;
+  --papier-2: #eee4d2;
+  --carte: #fffcf6;
+  --carte-2: #fbf6ec;
+  --encre: #241d17;
+  --encre-2: #5b5046;
+  --encre-3: #887b6e;
+  --trait: #e4d9c6;
+  --trait-2: #d3c4ab;
+  --vermillon: #b5342a;
+  --vermillon-2: #d65a4b;
+  --vermillon-pale: #f6e2db;
+  --sur-vermillon: #fff8f1;
+  --jade: #2d7360;
+  --jade-pale: #dcece5;
+  --or: #9c7425;
+  --or-pale: #f2e7cd;
+  --alerte: #8f3b14;
+  --alerte-pale: #fbe9dc;
+  --ombre: 0 1px 2px rgba(70, 45, 20, .06), 0 6px 18px rgba(70, 45, 20, .07);
+  --ombre-forte: 0 10px 40px rgba(50, 30, 10, .22);
+  --voile: rgba(36, 29, 23, .38);
+
+  /* planches */
+  --peau: #f4e3cf;
+  --peau-trait: #9c7b61;
+  --peau-detail: #bf9f84;
+  --cheveux: #e6d0b6;
+  --ongle: #fbefe3;
+  --os: #e9d3bb;
+  --halo-trace: rgba(255, 252, 246, .8);
+
+  /* les cinq éléments */
+  --bois: #4b8a50;
+  --feu: #c2412f;
+  --terre: #c08c22;
+  --metal: #7d8592;
+  --eau: #2c4f7c;
+
+  /* les méridiens */
+  --m-P: #5b7190;
+  --m-GI: #8494b0;
+  --m-E: #b07c0a;
+  --m-RP: #8c5d0c;
+  --m-C: #c0392b;
+  --m-IG: #e0674a;
+  --m-MC: #a33768;
+  --m-TR: #cf7426;
+  --m-V: #2f6fae;
+  --m-R: #1f3f6d;
+  --m-VB: #3f9350;
+  --m-F: #276633;
+  --m-VC: #7a48a0;
+  --m-VG: #563a8c;
+  --m-EX: #9a6f1f;
+
+  /* natures des aliments */
+  --n-chaud: #c2412f;
+  --n-tiede: #dc8a3c;
+  --n-neutre: #a8955f;
+  --n-frais: #4d93a8;
+  --n-froid: #2c5a8f;
+
+  --police-titre: "Iowan Old Style", "Noto Serif", Cambria, "Palatino Linotype", Palatino, Georgia, serif;
+  --police-texte: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+  --police-han: "Noto Serif CJK SC", "Noto Serif SC", "Source Han Serif SC", "Songti SC", STSong, SimSun, "Noto Sans CJK SC", serif;
+
+  --rayon: 16px;
+  --rayon-petit: 10px;
+  --taille: 16px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="clair"]) {
+    color-scheme: dark;
+    --papier: #15120e;
+    --papier-2: #1e1a15;
+    --carte: #221d18;
+    --carte-2: #2a241e;
+    --encre: #f0e7da;
+    --encre-2: #c6b9a8;
+    --encre-3: #93877a;
+    --trait: #3a322a;
+    --trait-2: #4b4137;
+    --vermillon: #e0644f;
+    --vermillon-2: #f08a76;
+    --vermillon-pale: #3d231d;
+    --sur-vermillon: #1a0f0c;
+    --jade: #6cc0a5;
+    --jade-pale: #1c332c;
+    --or: #d9b265;
+    --or-pale: #352a17;
+    --alerte: #f2a679;
+    --alerte-pale: #3a2418;
+    --ombre: 0 1px 2px rgba(0, 0, 0, .3), 0 6px 18px rgba(0, 0, 0, .25);
+    --voile: rgba(0, 0, 0, .55);
+    --peau: #3a3029;
+    --peau-trait: #c2a58c;
+    --peau-detail: #8d7563;
+    --cheveux: #4a3d33;
+    --ongle: #4a3f37;
+    --os: #4c4036;
+    --halo-trace: rgba(34, 29, 24, .75);
+    --metal: #a7afbb;
+    --eau: #6f95c6;
+    --m-P: #94a9c8;
+    --m-GI: #b4c2dc;
+    --m-E: #e3ac36;
+    --m-RP: #c9913a;
+    --m-C: #ee6a57;
+    --m-IG: #f39a7e;
+    --m-MC: #e06aa1;
+    --m-TR: #f0a05a;
+    --m-V: #6aa8e6;
+    --m-R: #8aa9e0;
+    --m-VB: #74c584;
+    --m-F: #58ad66;
+    --m-VC: #b88ae0;
+    --m-VG: #a08ae6;
+    --m-EX: #d9b265;
+  }
+}
+
+:root[data-theme="sombre"] {
+  color-scheme: dark;
+  --papier: #15120e;
+  --papier-2: #1e1a15;
+  --carte: #221d18;
+  --carte-2: #2a241e;
+  --encre: #f0e7da;
+  --encre-2: #c6b9a8;
+  --encre-3: #93877a;
+  --trait: #3a322a;
+  --trait-2: #4b4137;
+  --vermillon: #e0644f;
+  --vermillon-2: #f08a76;
+  --vermillon-pale: #3d231d;
+  --sur-vermillon: #1a0f0c;
+  --jade: #6cc0a5;
+  --jade-pale: #1c332c;
+  --or: #d9b265;
+  --or-pale: #352a17;
+  --alerte: #f2a679;
+  --alerte-pale: #3a2418;
+  --ombre: 0 1px 2px rgba(0, 0, 0, .3), 0 6px 18px rgba(0, 0, 0, .25);
+  --voile: rgba(0, 0, 0, .55);
+  --peau: #3a3029;
+  --peau-trait: #c2a58c;
+  --peau-detail: #8d7563;
+  --cheveux: #4a3d33;
+  --ongle: #4a3f37;
+  --os: #4c4036;
+  --halo-trace: rgba(34, 29, 24, .75);
+  --metal: #a7afbb;
+  --eau: #6f95c6;
+  --m-P: #94a9c8;
+  --m-GI: #b4c2dc;
+  --m-E: #e3ac36;
+  --m-RP: #c9913a;
+  --m-C: #ee6a57;
+  --m-IG: #f39a7e;
+  --m-MC: #e06aa1;
+  --m-TR: #f0a05a;
+  --m-V: #6aa8e6;
+  --m-R: #8aa9e0;
+  --m-VB: #74c584;
+  --m-F: #58ad66;
+  --m-VC: #b88ae0;
+  --m-VG: #a08ae6;
+  --m-EX: #d9b265;
+}
+
+.m-P { --mc: var(--m-P); }
+.m-GI { --mc: var(--m-GI); }
+.m-E { --mc: var(--m-E); }
+.m-RP { --mc: var(--m-RP); }
+.m-C { --mc: var(--m-C); }
+.m-IG { --mc: var(--m-IG); }
+.m-MC { --mc: var(--m-MC); }
+.m-TR { --mc: var(--m-TR); }
+.m-V { --mc: var(--m-V); }
+.m-R { --mc: var(--m-R); }
+.m-VB { --mc: var(--m-VB); }
+.m-F { --mc: var(--m-F); }
+.m-VC { --mc: var(--m-VC); }
+.m-VG { --mc: var(--m-VG); }
+.m-EX { --mc: var(--m-EX); }
+
+.el-bois { --ec: var(--bois); }
+.el-feu { --ec: var(--feu); }
+.el-terre { --ec: var(--terre); }
+.el-metal { --ec: var(--metal); }
+.el-eau { --ec: var(--eau); }
+
+.n-chaud { --nc: var(--n-chaud); }
+.n-tiede { --nc: var(--n-tiede); }
+.n-neutre { --nc: var(--n-neutre); }
+.n-frais { --nc: var(--n-frais); }
+.n-froid { --nc: var(--n-froid); }

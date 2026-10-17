@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Atelier des planches</title>
+  <link rel="stylesheet" href="../css/theme.css">
+  <link rel="stylesheet" href="../css/planche.css">
+  <style>
+    body { margin: 0; background: var(--papier); font: 13px system-ui; color: var(--encre); }
+    .barre { padding: 8px 12px; position: sticky; top: 0; background: var(--carte); border-bottom: 1px solid var(--trait); z-index: 2; }
+    .grille { display: flex; flex-wrap: wrap; gap: 16px; padding: 16px; }
+    figure { margin: 0; background: var(--carte); border: 1px solid var(--trait); border-radius: 10px; padding: 8px; }
+    figcaption { font-weight: 600; margin-bottom: 4px; }
+    .grand { width: var(--l, 700px); }
+    .quadrillage line { stroke: rgba(0,0,0,.07); stroke-width: .5; }
+    .quadrillage text { font-size: 7px; fill: rgba(0,0,0,.35); }
+  </style>
+</head>
+<body>
+  <div class="barre" id="barre"></div>
+  <div class="grille" id="grille"></div>
+  <script src="../js/anatomie/geo.js"></script>
+  <script src="../js/anatomie/corps.js"></script>
+  <script src="../js/anatomie/regions.js"></script>
+  <script src="../js/anatomie/planche.js"></script>
+  <script src="atelier.js"></script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+/*
+ * Les planches anatomiques et les schémas.
+ * Les tailles de texte et de points se règlent sur l'échelle d'affichage
+ * (--echelle, posée par le visionneur) : une étiquette garde sa taille à
+ * l'écran quel que soit le zoom.
+ */
+.planche {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  --echelle: 1;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* La silhouette : traits d'abord, peau par-dessus (voir Corps.silhouette). */
+.sil-trait path { fill: none; stroke: var(--peau-trait); stroke-width: 2.6; stroke-linejoin: round; }
+.sil-peau path { fill: var(--peau); stroke: none; }
+.det { fill: none; stroke: var(--peau-detail); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; }
+.det.trait-fin { stroke-width: .7; }
+.det.pointille { stroke-width: .75; stroke-dasharray: 2 3; }
+.det.os { stroke: var(--peau-detail); stroke-width: .8; stroke-dasharray: 4 3; }
+.det.tendon { stroke-width: .8; stroke: var(--peau-detail); }
+.cheveux { fill: var(--cheveux); stroke: none; }
+.iris { fill: var(--peau-detail); stroke: none; }
+.repere { fill: var(--peau-trait); stroke: none; }
+.repere-creux { fill: none; stroke: var(--peau-trait); stroke-width: .9; }
+.vertebre { fill: var(--peau-detail); stroke: none; }
+.ongle { fill: var(--ongle); stroke: var(--peau-detail); stroke-width: .6; }
+.os-plein { fill: var(--os); stroke: var(--peau-detail); stroke-width: .7; }
+.ombre-douce { fill: var(--peau-detail); opacity: .14; stroke: none; }
+.legende-anat { font-family: var(--police-texte); font-size: calc(10px / var(--echelle)); fill: var(--encre-3); font-style: italic; }
+
+/* Les méridiens */
+:where(.trace, .pt) { --mc: var(--m-EX); }
+.trace-fond { fill: none; stroke: var(--halo-trace); stroke-width: calc(5px / var(--echelle)); stroke-linecap: round; stroke-linejoin: round; }
+.trace-ligne { fill: none; stroke: var(--mc); stroke-width: calc(2.4px / var(--echelle)); stroke-linecap: round; stroke-linejoin: round; }
+.trace-flux {
+  fill: none; stroke: var(--carte); stroke-linecap: round;
+  stroke-width: calc(1.5px / var(--echelle));
+  stroke-dasharray: calc(1px / var(--echelle)) calc(13px / var(--echelle));
+  animation: flux 1.5s linear infinite;
+}
+@keyframes flux { to { stroke-dashoffset: calc(-14px / var(--echelle)); } }
+.trace.attenue { opacity: .28; }
+.trace.attenue .trace-flux { display: none; }
+
+/* Les points */
+.pt { cursor: default; outline: none; }
+.pt[role="button"] { cursor: pointer; }
+.pt-zone { fill: transparent; stroke: none; }
+.pt-disque {
+  fill: var(--mc); stroke: var(--carte); stroke-width: calc(1.4px / var(--echelle));
+  transform-box: fill-box; transform-origin: center;
+  transition: transform .2s;
+  transform: scale(calc(1.15 / var(--echelle)));
+}
+.pt.discret .pt-disque { fill: var(--carte); stroke: var(--mc); stroke-width: calc(1.3px / var(--echelle)); }
+.pt.actif .pt-disque { fill: var(--vermillon); stroke: var(--sur-vermillon); stroke-width: calc(1.6px / var(--echelle)); }
+.pt[role="button"]:hover .pt-disque, .pt:focus-visible .pt-disque { transform: scale(calc(1.5 / var(--echelle))); }
+.pt:focus-visible .pt-zone { stroke: var(--vermillon); stroke-width: calc(1.5px / var(--echelle)); stroke-dasharray: 2 2; }
+.pt-onde {
+  fill: none; stroke: var(--vermillon); stroke-width: calc(1.6px / var(--echelle));
+  transform-box: fill-box; transform-origin: center;
+  animation: onde 2.2s ease-out infinite;
+}
+.pt-onde.onde-2 { animation-delay: 1.1s; }
+@keyframes onde {
+  from { transform: scale(calc(.7 / var(--echelle))); opacity: .9; }
+  to { transform: scale(calc(3.2 / var(--echelle))); opacity: 0; }
+}
+.pt-etiquette {
+  font-family: var(--police-texte); font-weight: 650;
+  font-size: calc(11.5px / var(--echelle));
+  fill: var(--encre);
+  paint-order: stroke; stroke: var(--carte); stroke-width: calc(3px / var(--echelle)); stroke-linejoin: round;
+  pointer-events: none;
+}
+.pt.actif .pt-etiquette { fill: var(--vermillon); font-size: calc(13px / var(--echelle)); }
+
+/* Les repères de mesure */
+.guides .guide { opacity: 0; animation: apparait .5s ease-out forwards; }
+.guides .guide-1 { animation-delay: .25s; }
+.guides .guide-2 { animation-delay: .9s; }
+.guides .guide-3 { animation-delay: 1.5s; }
+.guides .guide-4 { animation-delay: 2.1s; }
+.guides .guide-5 { animation-delay: 2.7s; }
+@keyframes apparait { to { opacity: 1; } }
+.g-mesure { fill: none; stroke: var(--jade); stroke-width: calc(1.6px / var(--echelle)); stroke-dasharray: calc(5px / var(--echelle)) calc(3px / var(--echelle)); }
+.g-taquet { stroke: var(--jade); stroke-width: calc(1.6px / var(--echelle)); stroke-linecap: round; }
+.g-repere { fill: var(--jade-pale); fill-opacity: .55; stroke: var(--jade); stroke-width: calc(1.2px / var(--echelle)); stroke-dasharray: calc(3px / var(--echelle)) calc(2px / var(--echelle)); }
+.g-ligne { fill: none; stroke: var(--jade); stroke-width: calc(1.2px / var(--echelle)); stroke-dasharray: calc(2px / var(--echelle)) calc(3px / var(--echelle)); }
+.g-fleche { fill: none; stroke: var(--or); stroke-width: calc(1.8px / var(--echelle)); }
+.g-pointe { fill: var(--or); }
+.g-doigt { fill: var(--peau); fill-opacity: .82; stroke: var(--jade); stroke-width: calc(1.1px / var(--echelle)); }
+.g-ongle { fill: var(--carte); fill-opacity: .9; stroke: var(--jade); stroke-width: calc(.7px / var(--echelle)); }
+.g-etiquette text {
+  font-family: var(--police-texte); font-weight: 650;
+  font-size: calc(11px / var(--echelle)); fill: var(--jade);
+  paint-order: stroke; stroke: var(--carte); stroke-width: calc(3.2px / var(--echelle)); stroke-linejoin: round;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trace-flux { animation: none; display: none; }
+  .pt-onde { animation: none; opacity: .5; transform: scale(calc(1.8 / var(--echelle))); }
+  .pt-onde.onde-2 { display: none; }
+  .guides .guide { animation: none; opacity: 1; }
+}
+
+/* Pastilles numérotées des repères (leurs textes sont listés sous le schéma) */
+.g-badge {
+  transform-box: fill-box; transform-origin: center;
+  transform: scale(calc(1.3 / var(--echelle)));
+  opacity: 0; animation: apparait .5s ease-out forwards;
+}
+.g-badge.guide-1 { animation-delay: .25s; }
+.g-badge.guide-2 { animation-delay: .9s; }
+.g-badge.guide-3 { animation-delay: 1.5s; }
+.g-badge.guide-4 { animation-delay: 2.1s; }
+.g-badge circle { fill: var(--jade); stroke: var(--carte); stroke-width: 1.4; }
+.g-badge text { font-family: var(--police-texte); font-weight: 750; font-size: 9.5px; fill: #fff; }
+@media (prefers-reduced-motion: reduce) { .g-badge { animation: none; opacity: 1; } }
