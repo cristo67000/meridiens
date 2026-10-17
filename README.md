@@ -23,6 +23,8 @@ la médecine traditionnelle chinoise dans la poche.
 - **Carnet** — favoris, notes, historique des séances, constitution ;
   sauvegarde exportable. Tout reste sur l'appareil.
 
+En ligne : <https://cristo67000.github.io/meridiens/>
+
 ## Développer
 
 Zéro build : HTML, CSS et JavaScript servis tels quels.
@@ -38,6 +40,7 @@ Zéro build : HTML, CSS et JavaScript servis tels quels.
 
     node build/essais.mjs                       # ~13 900 vérifications statiques
     node build/captures.mjs <dossier> "#/" "#/point/GI4" [--sombre] [--plein]
+    node build/essais_en_ligne.mjs              # site publié : fichiers servis, hors ligne réel
 
 `essais.mjs` vérifie la syntaxe, que `sw.js` range exactement les fichiers
 chargés par la page, la version, et l'intégrité du contenu (renvois `[[…]]`,
