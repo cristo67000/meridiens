@@ -2,28 +2,40 @@
 /*
  * Installer l'application, et la partager.
  *
- * Une application web installable l'est déjà techniquement — le navigateur
- * propose « Ajouter à l'écran d'accueil » quelque part dans son menu. Encore
- * faut-il le savoir. D'où un bouton explicite, dans deux cas :
+ * Une application web n'a pas de « version d'Android » : c'est le navigateur
+ * qui, au moment de l'installation, fabrique pour elle une petite application
+ * Android (un « WebAPK »). Tout dépend donc du navigateur :
  *
- *   Android, Chrome, Edge   `beforeinstallprompt` est émis ; on le retient et
- *                           on le déclenche au clic.
- *   iOS, Safari             rien ne se déclenche par programme ; on explique
- *                           le geste : Partager, puis « Sur l'écran d'accueil ».
+ *   Chrome            le WebAPK est fabriqué et signé par Google, pour une
+ *                     version d'Android récente : Play Protect l'accepte.
+ *   Samsung Internet  le WebAPK est fabriqué par le serveur de Samsung, qui
+ *                     déclare une version d'Android ancienne (targetSdk trop
+ *                     bas) : depuis Android 14, Play Protect le bloque —
+ *                     « Appli non sécurisée bloquée… conçue pour une version
+ *                     plus ancienne d'Android ». Défaut connu, non corrigé par
+ *                     Samsung (SamsungInternet/support, ticket 123, 2026).
+ *   iPhone (Safari)   pas d'APK : « Sur l'écran d'accueil ».
+ *
+ * D'où la règle : sur Samsung Internet, on ne déclenche JAMAIS l'installation
+ * du navigateur ; on propose d'ouvrir Méridiens dans Chrome (lien d'intention
+ * Android), ou, à défaut, un simple raccourci sur l'écran d'accueil.
+ * Les autres navigateurs Android gardent leur invite, avec Chrome conseillé.
  *
  * Déjà installée, l'application n'affiche rien de tout cela.
  */
 (function (racine) {
 
-  const { element, bouton } = Outils;
+  const { h, icone } = Outils;
   const ADRESSE = 'https://cristo67000.github.io/meridiens/';
+  const PLAY_CHROME = 'https://play.google.com/store/apps/details?id=com.android.chrome';
 
   let invite = null;
-  let ecouteur = null;
+  const ecouteurs = new Set();   // { f, el } : el retiré de la page = écouteur oublié
 
   function estInstallee() {
     return racine.matchMedia('(display-mode: standalone)').matches
       || racine.matchMedia('(display-mode: fullscreen)').matches
+      || racine.matchMedia('(display-mode: minimal-ui)').matches
       || racine.navigator.standalone === true;
   }
 
@@ -32,22 +44,66 @@
     return /iPad|iPhone|iPod/.test(ua) || (/Macintosh/.test(ua) && racine.navigator.maxTouchPoints > 1);
   }
 
-  function prevenir() { if (ecouteur) ecouteur(); }
+  /* Le navigateur, pour l'installation : 'chrome', 'samsung', 'android' (un
+   * autre navigateur Android), 'apple' ou 'autre' (ordinateur). */
+  function navigateur() {
+    const ua = racine.navigator.userAgent;
+    if (estApple()) return 'apple';
+    if (!/Android/i.test(ua)) return 'autre';
+    if (/SamsungBrowser/i.test(ua)) return 'samsung';
+    if (/MiuiBrowser|HuaweiBrowser|HeyTapBrowser|OppoBrowser|VivoBrowser|UCBrowser|YaBrowser|OPR\/|Opera|EdgA|Firefox|DuckDuckGo|Brave|; wv\)/i.test(ua)) return 'android';
+    return /Chrome\/\d/.test(ua) ? 'chrome' : 'android';
+  }
+
+  /* Un lien qui rouvre la page dans Chrome (intention Android) ; sans Chrome,
+   * le Play Store propose de l'installer. */
+  function lienChrome() {
+    const schema = racine.location.protocol.replace(':', '');
+    return 'intent://' + racine.location.host + racine.location.pathname
+      + '#Intent;scheme=' + schema + ';package=com.android.chrome;S.browser_fallback_url='
+      + encodeURIComponent(PLAY_CHROME) + ';end';
+  }
+
+  function prevenir() {
+    for (const e of Array.from(ecouteurs)) {
+      if (e.el && !e.el.isConnected) ecouteurs.delete(e); else e.f();
+    }
+  }
 
   racine.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
+    // Samsung Internet : son installation est bloquée par Play Protect.
+    if (navigateur() === 'samsung') { invite = null; return; }
     invite = e;
     prevenir();
   });
   racine.addEventListener('appinstalled', () => { invite = null; prevenir(); });
 
-  function dessinerInstallation(bloc, zone) {
-    zone.textContent = '';
-    if (estInstallee()) { bloc.hidden = true; return; }
+  function etapes(liste) {
+    const ol = h('ol', { class: 'marche-a-suivre' });
+    for (const t of liste) ol.appendChild(h('li', null, t));
+    return ol;
+  }
+
+  /* Le contenu du bloc d'installation, selon le navigateur. Renvoie null s'il
+   * n'y a rien à proposer. `compact` : pour la carte de l'accueil. */
+  function contenu(compact) {
+    if (estInstallee()) return null;
+    const nav = navigateur();
+    const boite = h('div', { class: 'installation' });
+    if (nav === 'samsung') {
+      boite.appendChild(h('p', null, h('strong', null, 'Installez Méridiens avec Chrome.'),
+        ' Samsung Internet fabrique une version de l’appli prévue pour un Android ancien, que Google Play Protect bloque (« Appli non sécurisée bloquée »). Celle de Chrome est conforme.'));
+      boite.appendChild(h('a', { class: 'bouton-principal', href: lienChrome() }, 'Ouvrir dans Chrome'));
+      if (!compact) {
+        boite.appendChild(h('p', { class: 'discret petit' }, 'Puis, dans Chrome : menu ⋮ › « Ajouter à l’écran d’accueil » › « Installer ».'));
+        boite.appendChild(h('p', { class: 'discret petit' }, 'Sans Chrome : menu ≡ de Samsung Internet › « Ajouter la page à » › « Écran d’accueil ». Vous obtenez un simple raccourci, qui ouvre Méridiens dans le navigateur, sans installation ni blocage.'));
+      }
+      return boite;
+    }
     if (invite) {
-      bloc.hidden = false;
-      zone.appendChild(element('p', 'discret', 'Installée, l’application s’ouvre comme les autres depuis l’écran d’accueil et fonctionne sans réseau.'));
-      const b = bouton('bouton-principal', 'Installer Méridiens', async () => {
+      if (!compact) boite.appendChild(h('p', { class: 'discret' }, 'Installée, l’application s’ouvre comme les autres depuis l’écran d’accueil et fonctionne sans réseau.'));
+      const b = h('button', { type: 'button', class: 'bouton-principal', onclick: async () => {
         b.disabled = true;
         try {
           invite.prompt();
@@ -57,42 +113,78 @@
           invite = null;
         }
         prevenir();
-      });
-      zone.appendChild(b);
-      return;
+      } }, icone('telecharger'), 'Installer Méridiens');
+      boite.appendChild(b);
+      if (nav === 'android' && !compact) boite.appendChild(h('p', { class: 'discret petit' }, 'Si Google Play Protect bloquait l’installation, ouvrez plutôt Méridiens dans Chrome : ', h('a', { class: 'renvoi', href: lienChrome() }, 'ouvrir dans Chrome'), '.'));
+      return boite;
     }
-    if (estApple()) {
-      bloc.hidden = false;
-      const marche = element('ol', 'marche-a-suivre');
-      for (const etape of ['Touchez le bouton Partager de Safari (le carré et sa flèche).', 'Choisissez « Sur l’écran d’accueil ».', 'Confirmez avec « Ajouter ».']) {
-        marche.appendChild(element('li', null, etape));
-      }
-      zone.appendChild(marche);
-      return;
+    if (nav === 'apple') {
+      boite.appendChild(etapes(['Touchez le bouton Partager de Safari (le carré et sa flèche).', 'Choisissez « Sur l’écran d’accueil ».', 'Confirmez avec « Ajouter ».']));
+      return boite;
     }
-    bloc.hidden = true;
+    if (nav === 'chrome') {
+      boite.appendChild(etapes(['Touchez le menu ⋮ de Chrome, en haut à droite.', 'Choisissez « Ajouter à l’écran d’accueil », puis « Installer ».']));
+      return boite;
+    }
+    if (nav === 'android') {
+      boite.appendChild(h('p', null, 'Pour installer Méridiens, Chrome est conseillé : l’application qu’il fabrique est signée par Google et acceptée par Play Protect.'));
+      boite.appendChild(h('a', { class: 'bouton-principal', href: lienChrome() }, 'Ouvrir dans Chrome'));
+      return boite;
+    }
+    return null;
+  }
+
+  /* Pour les Réglages : `bloc` est masqué s'il n'y a rien à proposer. */
+  function dessinerInstallation(bloc, zone) {
+    zone.textContent = '';
+    const c = contenu(false);
+    bloc.hidden = !c;
+    if (c) zone.appendChild(c);
+  }
+
+  /* La carte de l'accueil : seulement sur téléphone, refermable (elle revient
+   * au bout d'un mois). */
+  function carteAccueil() {
+    const nav = navigateur();
+    if (nav === 'autre' || estInstallee()) return null;
+    const masquee = Reglages.lire('carteInstallation');
+    if (masquee && Date.now() - masquee < 30 * 86400000) return null;
+    const carte = h('div', { class: 'carte carte-installation' });
+    function dessiner() {
+      carte.textContent = '';
+      const c = contenu(true);
+      if (!c) { carte.hidden = true; return; }
+      carte.hidden = false;
+      carte.appendChild(h('div', { class: 'entete-installation' },
+        h('span', { class: 'cachet' }, '装'),
+        h('div', null, h('p', { class: 'carte-titre' }, 'Installer Méridiens'), h('p', { class: 'discret petit' }, 'Sur l’écran d’accueil, hors ligne, comme une appli.')),
+        h('button', { type: 'button', class: 'bouton-icone', 'aria-label': 'Masquer', onclick: () => { Reglages.ecrire('carteInstallation', Date.now()); carte.remove(); } }, icone('fermer'))));
+      carte.appendChild(c);
+    }
+    dessiner();
+    ecouteurs.add({ f: dessiner, el: carte });
+    return carte;
   }
 
   function dessinerPartage(zone) {
     zone.textContent = '';
-    const retour = element('p', 'discret retour-partage', '');
-    retour.hidden = true;
-    zone.appendChild(bouton('bouton-discret', 'Partager l’application', async () => {
-      const contenu = { title: 'Méridiens', text: 'Méridiens : la médecine chinoise, les méridiens et la digipuncture, hors ligne et sans publicité.', url: ADRESSE };
+    const retour = h('p', { class: 'discret retour-partage', hidden: true });
+    zone.appendChild(h('button', { type: 'button', class: 'bouton-discret', onclick: async () => {
+      const donnees = { title: 'Méridiens', text: 'Méridiens : la médecine chinoise, les méridiens et la digipuncture, hors ligne et sans publicité.', url: ADRESSE };
       if (racine.navigator.share) {
-        try { await racine.navigator.share(contenu); return; } catch (e) { if (e && e.name === 'AbortError') return; }
+        try { await racine.navigator.share(donnees); return; } catch (e) { if (e && e.name === 'AbortError') return; }
       }
       const ok = await Outils.copier(ADRESSE);
       retour.textContent = ok ? 'Adresse copiée.' : ADRESSE;
       retour.hidden = false;
-    }));
-    zone.appendChild(element('p', 'adresse-partage', ADRESSE));
+    } }, icone('partager'), 'Partager l’application'));
+    zone.appendChild(h('p', { class: 'adresse-partage discret petit' }, ADRESSE));
     zone.appendChild(retour);
   }
 
   racine.Installer = {
-    dessinerInstallation, dessinerPartage, estInstallee, estApple, ADRESSE,
-    surChangement: (f) => { ecouteur = f; },
+    dessinerInstallation, dessinerPartage, carteAccueil, estInstallee, estApple, navigateur, lienChrome, ADRESSE,
+    surChangement: (f, el) => { ecouteurs.add({ f, el }); },
   };
 
 })(window);

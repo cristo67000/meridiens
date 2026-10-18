@@ -519,3 +519,12 @@ textarea.note {
 .boite-wuxing, .boite-langue, .boite-pouls { display: grid; gap: 4px; }
 .deux-colonnes.centre .schema.taiji { max-width: 170px; }
 .renvoi-meridien { color: var(--mc, var(--vermillon)); border-bottom-color: color-mix(in srgb, var(--mc, var(--vermillon)) 40%, transparent); }
+
+/* Installation */
+.entete-installation { display: flex; gap: 12px; align-items: center; }
+.entete-installation > div { flex: 1; min-width: 0; }
+.entete-installation .carte-titre, .entete-installation p { margin: 0; }
+.installation { display: grid; gap: 10px; margin-top: 10px; }
+.installation p { margin: 0; }
+.marche-a-suivre { margin: 0; padding-left: 1.3em; }
+.marche-a-suivre li { margin: 4px 0; }

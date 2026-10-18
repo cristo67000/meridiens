@@ -76,6 +76,7 @@
     const noeud = h('div', null,
       h('div', { class: 'salut' }, h('div', { class: 'date' }, date), h('h2', null, salutation(maintenant))),
       carteHorloge,
+      racine.Installer ? Installer.carteAccueil() : null,
       h('h2', { class: 'titre-section' }, 'Soulager…', h('a', { class: 'lien-tout', href: '#/soins' }, 'Tous les soins')),
       grille,
       carteSaison,

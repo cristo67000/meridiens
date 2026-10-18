@@ -32,7 +32,7 @@
     const version = racine.MiseAJour && MiseAJour.version;
     const installer = h('div');
     const zoneInstaller = h('div');
-    if (racine.Installer) { Installer.dessinerInstallation(installer, zoneInstaller); Installer.surChangement(() => Installer.dessinerInstallation(installer, zoneInstaller)); }
+    if (racine.Installer) { Installer.dessinerInstallation(installer, zoneInstaller); Installer.surChangement(() => Installer.dessinerInstallation(installer, zoneInstaller), installer); }
     installer.appendChild(zoneInstaller);
 
     const fichier = h('input', { type: 'file', accept: 'application/json,.json', hidden: true });
@@ -77,7 +77,7 @@
         } }, 'Effacer l’historique des séances')),
       C.section('Application', 'info', installer,
         h('ul', { class: 'liste' },
-          h('li', { class: 'reglage' }, h('span', { class: 'libelle' }, 'Version', h('span', { class: 'discret' }, version || 'v1.0.0')),
+          h('li', { class: 'reglage' }, h('span', { class: 'libelle' }, 'Version', h('span', { class: 'discret' }, version || 'v1.0.1')),
             h('button', { type: 'button', class: 'bouton-discret', onclick: async () => {
               if (!racine.MiseAJour) return;
               etatMaj.textContent = 'Recherche…';

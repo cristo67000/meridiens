@@ -16,7 +16,7 @@
  * build/essais.mjs compare les deux.
  */
 
-const VERSION = 'v1.0.0';
+const VERSION = 'v1.0.1';
 const COQUILLE = 'meridiens-coquille-' + VERSION;
 
 const FICHIERS = [

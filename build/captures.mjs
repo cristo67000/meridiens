@@ -62,6 +62,13 @@ function cdp(method, params) {
 const largeur = large ? 1200 : 390;
 const hauteur = large ? 900 : 844;
 await cdp('Emulation.setDeviceMetricsOverride', { width: largeur, height: hauteur, deviceScaleFactor: large ? 1 : 2, mobile: !large });
+// --ua=samsung | --ua=chrome : se faire passer pour un téléphone Android
+const UA = {
+  samsung: 'Mozilla/5.0 (Linux; Android 15; SM-A266B) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/28.0 Chrome/130.0.0.0 Mobile Safari/537.36',
+  chrome: 'Mozilla/5.0 (Linux; Android 15; SM-A266B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36',
+};
+const choixUa = (args.find((a) => a.startsWith('--ua=')) || '').slice(5);
+if (UA[choixUa]) await cdp('Emulation.setUserAgentOverride', { userAgent: UA[choixUa], platform: 'Linux armv8l' });
 if (sombre) await cdp('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-color-scheme', value: 'dark' }] });
 await cdp('Page.enable');
 await cdp('Runtime.enable');
